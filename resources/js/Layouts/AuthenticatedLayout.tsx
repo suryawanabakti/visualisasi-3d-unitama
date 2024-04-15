@@ -1,128 +1,220 @@
-import { useState, PropsWithChildren, ReactNode } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
-import { User } from '@/types';
+import { useState, PropsWithChildren, ReactNode } from "react";
+import { Link } from "@inertiajs/react";
+import { User } from "@/types";
+import {
+    Home,
+    LineChart,
+    Package,
+    Package2,
+    PanelLeft,
+    Settings,
+    ShoppingCart,
+    Users2,
+} from "lucide-react";
 
-export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+import { Button } from "@/Components/ui/button";
 
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/Components/ui/dropdown-menu";
+
+import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/Components/ui/tooltip";
+
+export default function Authenticated({
+    user,
+    header,
+    children,
+}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+        <TooltipProvider>
+            <div className="flex min-h-screen w-full flex-col bg-muted/40">
+                <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+                    <nav className="flex flex-col items-center gap-4 px-2 sm:py-4">
+                        <Link
+                            href="#"
+                            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+                        >
+                            <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
+
+                            <span className="sr-only">Smart Inovasi Inc </span>
+                        </Link>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link
+                                    href={route("dashboard")}
+                                    className={`flex h-9 w-9 items-center justify-center ${
+                                        route().current("dashboard*")
+                                            ? "bg-accent"
+                                            : ""
+                                    }  rounded-lg text-${
+                                        route().current("dashboard*")
+                                            ? "accent"
+                                            : "muted"
+                                    }-foreground transition-colors hover:text-foreground md:h-8 md:w-8`}
+                                >
+                                    <Home className="h-5 w-5" />
+                                    <span className="sr-only">Dashboard</span>
                                 </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                                Dashboard
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link
+                                    href={route("admin.users.index")}
+                                    className={`flex h-9 w-9 items-center justify-center ${
+                                        route().current("admin.users*")
+                                            ? "bg-accent"
+                                            : ""
+                                    }  rounded-lg text-${
+                                        route().current("admin.users*")
+                                            ? "accent"
+                                            : "muted"
+                                    }-foreground transition-colors hover:text-foreground md:h-8 md:w-8`}
+                                >
+                                    <Users2 className="h-5 w-5" />
+                                    <span className="sr-only">Users</span>
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">Users</TooltipContent>
+                        </Tooltip>
+                    </nav>
+                    <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link
+                                    href="#"
+                                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                                >
+                                    <Settings className="h-5 w-5" />
+                                    <span className="sr-only">Settings</span>
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right">
+                                Settings
+                            </TooltipContent>
+                        </Tooltip>
+                    </nav>
+                </aside>
+                <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+                    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+                        <Sheet>
+                            <SheetTrigger asChild>
+                                <Button
+                                    size="icon"
+                                    variant="outline"
+                                    className="sm:hidden"
+                                >
+                                    <PanelLeft className="h-5 w-5" />
+                                    <span className="sr-only">Toggle Menu</span>
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="left" className="sm:max-w-xs">
+                                <nav className="grid gap-6 text-lg font-medium">
+                                    <Link
+                                        href="#"
+                                        className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+                                    >
+                                        <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
+                                        <span className="sr-only">
+                                            Acme Inc
                                         </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
+                                    </Link>
+                                    <Link
+                                        href="#"
+                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                                    >
+                                        <Home className="h-5 w-5" />
+                                        Dashboard
+                                    </Link>
+                                    <Link
+                                        href="#"
+                                        className="flex items-center gap-4 px-2.5 text-foreground"
+                                    >
+                                        <ShoppingCart className="h-5 w-5" />
+                                        Orders
+                                    </Link>
+                                    <Link
+                                        href="#"
+                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                                    >
+                                        <Package className="h-5 w-5" />
+                                        Products
+                                    </Link>
+                                    <Link
+                                        href="#"
+                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                                    >
+                                        <Users2 className="h-5 w-5" />
+                                        Customers
+                                    </Link>
+                                    <Link
+                                        href="#"
+                                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                                    >
+                                        <LineChart className="h-5 w-5" />
+                                        Settings
+                                    </Link>
+                                </nav>
+                            </SheetContent>
+                        </Sheet>
+                        {/* Header */}
+                        {header}
+                        <div className="relative ml-auto flex-1 md:grow-0"></div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    className="overflow-hidden rounded-full"
+                                >
+                                    <img
+                                        src={`https://ui-avatars.com/api/?name=${encodeURI(
+                                            user.name
+                                        )}`}
+                                        width={36}
+                                        height={36}
+                                        alt="Avatar"
+                                        className="overflow-hidden rounded-full"
                                     />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>
+                                    My Account
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>Settings</DropdownMenuItem>
+                                <DropdownMenuItem>Support</DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link
+                                        href={route("logout")}
+                                        method="post"
+                                        as="butotn"
+                                    >
+                                        Logout
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </header>
+                    {children}
                 </div>
-
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
-
-            <main>{children}</main>
-        </div>
+            </div>
+        </TooltipProvider>
     );
 }
