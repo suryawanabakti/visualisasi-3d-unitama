@@ -11,9 +11,10 @@
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/Pages/{$page['component']}.tsx"])
     @inertiaHead
+
 </head>
 
-<body class="min-h-screen bg-background font-sans antialiased">
+<body class="min-h-screen bg-background font-sans antialiased __variable_ac79ff">
     @inertia
 </body>
 

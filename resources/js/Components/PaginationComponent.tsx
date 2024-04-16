@@ -18,14 +18,11 @@ export default function PaginationComponent({
     currentPage: number;
 }) {
     return (
-        <Pagination>
+        <Pagination className="hidden sm:table-cell">
             <PaginationContent>
-                {/* <PaginationItem>
-                    <PaginationPrevious href="#" />
-                </PaginationItem> */}
                 {links.map((link: any) => {
                     return (
-                        <PaginationItem className="mt-3">
+                        <PaginationItem className="mt-3" key={link.label}>
                             <PaginationLink
                                 isActive={
                                     currentPage == link.label ? true : false
@@ -36,13 +33,6 @@ export default function PaginationComponent({
                         </PaginationItem>
                     );
                 })}
-
-                {/* <PaginationItem>
-                    <PaginationEllipsis />
-                </PaginationItem> */}
-                {/* <PaginationItem>
-                    <PaginationNext href="#" />
-                </PaginationItem> */}
             </PaginationContent>
         </Pagination>
     );

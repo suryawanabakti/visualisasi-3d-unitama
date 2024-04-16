@@ -7,16 +7,21 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = UserResource::collection(User::paginate(10));
-        return inertia("Admin/Users/Page", ["users" => $users]);
+        $users = User::orderBy('updated_at', 'desc');
+        if ($request->search) {
+            $users->where('name', 'LIKE', "%{$request->search}%")->orWhere('email', 'LIKE', "%{$request->search}%");
+        }
+
+        return inertia("Admin/Users/Page", ["users" => UserResource::collection($users->paginate(5)), "search" => $request->search ?? null]);
     }
 
     /**

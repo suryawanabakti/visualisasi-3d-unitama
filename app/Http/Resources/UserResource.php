@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             "name" => $this->name,
             "roles" => RoleResource::collection($this->roles),
             "email" => $this->email,
-            "created_at" => $this->created_at->format('d M Y')
+            "created_at" => $this->created_at->format('d M Y H:i')
         ];
     }
 }
