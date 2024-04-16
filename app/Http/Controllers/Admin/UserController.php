@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -14,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return inertia("Admin/Users/Page");
+        $users = UserResource::collection(User::paginate(10));
+        return inertia("Admin/Users/Page", ["users" => $users]);
     }
 
     /**
