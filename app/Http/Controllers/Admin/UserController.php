@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::orderBy('updated_at', 'desc');
+        $users = User::orderBy('updated_at', 'desc')->role('user');
         if ($request->search) {
             $users->where('name', 'LIKE', "%{$request->search}%")->orWhere('email', 'LIKE', "%{$request->search}%");
         }
@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return inertia("Admin/Users/Create");
     }
 
     /**
@@ -37,7 +37,14 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+
+        $data = $request->all();
+        if ($request->photo) {
+            $data["photo"] = $request->file("photo")->store("photos");
+        }
+
+        $user = User::create($data)->assignRole("user");
+        return redirect()->route('admin.users.index')->with("message", "Berhasil tambah user " . $user->name);
     }
 
     /**
@@ -69,6 +76,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return back()->with("message", "Berhasil hapus user " . $user->name);
     }
 }

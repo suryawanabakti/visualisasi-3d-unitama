@@ -1,16 +1,7 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
-import { Link } from "@inertiajs/react";
 import { User } from "@/types";
-import {
-    Home,
-    LineChart,
-    Package,
-    Package2,
-    PanelLeft,
-    Settings,
-    ShoppingCart,
-    Users2,
-} from "lucide-react";
+import { Link, usePage } from "@inertiajs/react";
+import { Home, Package2, PanelLeft, Settings, Users2 } from "lucide-react";
+import { PropsWithChildren, ReactNode, useEffect } from "react";
 
 import { Button } from "@/Components/ui/button";
 
@@ -24,12 +15,14 @@ import {
 } from "@/Components/ui/dropdown-menu";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/Components/ui/sheet";
+import { Toaster } from "@/Components/ui/sonner";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/Components/ui/tooltip";
+import { toast } from "sonner";
 
 export default function Authenticated({
     user,
@@ -41,6 +34,10 @@ export default function Authenticated({
     header?: ReactNode;
     searchForm?: ReactNode;
 }>) {
+    const { flash }: any = usePage().props;
+    useEffect(() => {
+        flash.message ? toast.success(flash.message) : "";
+    }, [flash]);
     return (
         <TooltipProvider>
             <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -201,6 +198,7 @@ export default function Authenticated({
                     {children}
                 </div>
             </div>
+            <Toaster />
         </TooltipProvider>
     );
 }

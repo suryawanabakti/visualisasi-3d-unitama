@@ -1,4 +1,6 @@
+import AlertDelete from "@/Components/AlertDelete";
 import SimplePagination from "@/Components/SimplePagination";
+
 import { Badge } from "@/Components/ui/badge";
 import {
     Breadcrumb,
@@ -43,16 +45,17 @@ import {
     ListFilter,
     MoreHorizontal,
     PlusCircle,
-    RefreshCcwIcon,
     Search,
 } from "lucide-react";
-import { FormEventHandler } from "react";
+import { FormEventHandler, useState } from "react";
 
 export default function Users({
     auth,
     users,
     search,
 }: PageProps<{ users: any; search?: string }>) {
+    const [user, setUser] = useState(null);
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const { data, setData, get } = useForm({
         search: search ? search : "",
     });
@@ -60,6 +63,12 @@ export default function Users({
         e.preventDefault();
         get(route("admin.users.index"));
     };
+
+    const handleShowDeleteDialog = (show: boolean, user: any) => {
+        setShowDeleteDialog(true);
+        setUser(user);
+    };
+
     const searchForm = (
         <form onSubmit={submitSearch}>
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -77,23 +86,19 @@ export default function Users({
             user={auth.user}
             searchForm={searchForm}
             header={
-                <>
-                    <Breadcrumb className="hidden md:flex">
-                        <BreadcrumbList>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink asChild>
-                                    <Link href={route("dashboard")}>
-                                        Dashboard
-                                    </Link>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbPage>Users</BreadcrumbPage>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
-                </>
+                <Breadcrumb className="hidden md:flex">
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink asChild>
+                                <Link href={route("dashboard")}>Dashboard</Link>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage>Users</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
             }
         >
             <Head title="Users" />
@@ -162,6 +167,9 @@ export default function Users({
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className=""></TableHead>
+                                    <TableHead className="hidden w-[100px] sm:table-cell">
+                                        <span className="sr-only">Image</span>
+                                    </TableHead>
                                     <TableHead>Name</TableHead>
                                     <TableHead className="hidden sm:table-cell">
                                         Email
@@ -201,11 +209,27 @@ export default function Users({
                                                     <DropdownMenuItem>
                                                         Edit
                                                     </DropdownMenuItem>
-                                                    <DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            handleShowDeleteDialog(
+                                                                true,
+                                                                user
+                                                            )
+                                                        }
+                                                    >
                                                         Delete
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
+                                        </TableCell>
+                                        <TableCell>
+                                            <img
+                                                alt="User image"
+                                                className="aspect-square rounded-md object-cover"
+                                                height="64"
+                                                src={user.photo}
+                                                width="64"
+                                            />
                                         </TableCell>
                                         <TableCell className="font-medium">
                                             {user.name}
@@ -219,6 +243,7 @@ export default function Users({
                                                     <Badge
                                                         variant="outline"
                                                         className="capitalize"
+                                                        key={role.id}
                                                     >
                                                         {role.name}
                                                     </Badge>
@@ -246,6 +271,13 @@ export default function Users({
                     </CardFooter>
                 </Card>
             </main>
+            {user && (
+                <AlertDelete
+                    user={user}
+                    showDeleteDialog={showDeleteDialog}
+                    setShowDeleteDialog={setShowDeleteDialog}
+                />
+            )}
         </AuthenticatedLayout>
     );
 }
