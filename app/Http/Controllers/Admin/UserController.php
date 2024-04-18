@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -60,7 +61,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return inertia("Admin/Users/Edit", ["user" => $user]);
     }
 
     /**
@@ -68,7 +69,18 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->all();
+        unset($data["password"], $data['password_confirmation'], $data['photo']);
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
+        }
+        if ($request->photo) {
+            @unlink("storage/" . $user->photo ?? null);
+            $data['photo'] = $request->file('photo')->store('photos');
+        }
+
+        $user->update($data);
+        return back()->with("message", "Berhasil edit user " . $user->name);
     }
 
     /**
@@ -77,6 +89,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        @unlink("storage/" . $user->photo);
         return back()->with("message", "Berhasil hapus user " . $user->name);
     }
 }

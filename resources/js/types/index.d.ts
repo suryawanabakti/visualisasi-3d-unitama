@@ -6,6 +6,7 @@ export interface User {
     roles: any;
     created_at: string;
     photo: string;
+    address: string;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {

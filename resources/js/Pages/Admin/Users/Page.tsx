@@ -206,8 +206,15 @@ export default function Users({
                                                     <DropdownMenuLabel>
                                                         Actions
                                                     </DropdownMenuLabel>
-                                                    <DropdownMenuItem>
-                                                        Edit
+                                                    <DropdownMenuItem asChild>
+                                                        <Link
+                                                            href={route(
+                                                                "admin.users.edit",
+                                                                user.id
+                                                            )}
+                                                        >
+                                                            Edit
+                                                        </Link>
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         onClick={() =>

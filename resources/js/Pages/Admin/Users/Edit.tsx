@@ -18,37 +18,41 @@ import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Textarea } from "@/Components/ui/textarea";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { PageProps } from "@/types";
+import { PageProps, User } from "@/types";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { ChevronLeft } from "lucide-react";
 import { FormEventHandler, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export default function Create({ auth }: PageProps) {
+export default function Edit({ auth, user }: PageProps<{ user: User }>) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const { data, setData, errors, post, reset, processing } = useForm({
-        name: "",
-        email: "",
+        name: user.name,
+        email: user.email,
+        address: user.address,
         password: "",
         password_confirmation: "",
-        address: "",
         photo: "",
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route("admin.users.store"), {
+        console.log(data);
+        post(route("admin.users.update", user.id), {
             onError: (err) => {
                 Object.values(err).forEach((element: any) => {
                     toast.error(element);
                 });
             },
         });
+        reset("password", "password_confirmation");
     };
 
     const [image, setImage] = useState(
-        `https://static.vecteezy.com/system/resources/previews/003/715/527/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg`
+        user.photo
+            ? `/storage/${user.photo}`
+            : `https://static.vecteezy.com/system/resources/previews/003/715/527/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg`
     );
 
     const imageChange = (e: any) => {
@@ -82,14 +86,14 @@ export default function Create({ auth }: PageProps) {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbPage>Create</BreadcrumbPage>
+                                <BreadcrumbPage>Edit</BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
                 </>
             }
         >
-            <Head title="Create user" />
+            <Head title="Edit user" />
 
             <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
                 <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
@@ -106,7 +110,8 @@ export default function Create({ auth }: PageProps) {
                             </Link>
                         </Button>
                         <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                            Create
+                            {user.name.substring(0, 17)}{" "}
+                            {user.name.length > 17 && "..."}
                         </h1>
                         {/* <Badge variant="outline" className="ml-auto sm:ml-0">
                             In stock
@@ -117,7 +122,9 @@ export default function Create({ auth }: PageProps) {
                                 size="sm"
                                 onClick={() => {
                                     setImage(
-                                        "https://static.vecteezy.com/system/resources/previews/003/715/527/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg"
+                                        user.photo
+                                            ? `/storage/${user.photo}`
+                                            : `https://static.vecteezy.com/system/resources/previews/003/715/527/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg`
                                     );
                                     reset();
                                 }}
@@ -132,7 +139,9 @@ export default function Create({ auth }: PageProps) {
                                 {processing && (
                                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                                 )}
-                                {processing ? "Please wait" : "Save User"}
+                                {processing
+                                    ? "Please wait"
+                                    : "Save Change User"}
                             </Button>
                         </div>
                     </div>
@@ -140,7 +149,7 @@ export default function Create({ auth }: PageProps) {
                         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
                             <Card x-chunk="dashboard-07-chunk-0">
                                 <CardHeader>
-                                    <CardTitle>New user</CardTitle>
+                                    <CardTitle>Edit user</CardTitle>
                                     <CardDescription>
                                         Field all required input or anything
                                         else
@@ -222,15 +231,24 @@ export default function Create({ auth }: PageProps) {
                                                 </small>
                                             )}
                                         </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Change Password</CardTitle>
+                                    <CardDescription>
+                                        Field the input if you want to change
+                                        the password
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid gap-6">
                                         <div className="grid gap-3">
                                             <Label htmlFor="password">
-                                                Password{" "}
-                                                <span className="text-red-600">
-                                                    *
-                                                </span>{" "}
+                                                New Password{" "}
                                             </Label>
                                             <Input
-                                                ref={inputRef}
                                                 id="password"
                                                 type="password"
                                                 className="w-full"
@@ -251,10 +269,7 @@ export default function Create({ auth }: PageProps) {
                                         </div>
                                         <div className="grid gap-3">
                                             <Label htmlFor="password_confirmation">
-                                                Password Confirmation{" "}
-                                                <span className="text-red-600">
-                                                    *
-                                                </span>{" "}
+                                                New Password Confirmation{" "}
                                             </Label>
                                             <Input
                                                 required
@@ -277,6 +292,7 @@ export default function Create({ auth }: PageProps) {
                                 </CardContent>
                             </Card>
                         </div>
+
                         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
                             <Card className="overflow-hidden">
                                 <CardHeader>
@@ -313,9 +329,21 @@ export default function Create({ auth }: PageProps) {
                                 </CardContent>
                             </Card>
                         </div>
+
                         <div className="flex items-center justify-center gap-2 md:hidden">
-                            <Button variant="outline" size="sm">
-                                Discard
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    setImage(
+                                        user.photo
+                                            ? `/storage/${user.photo}`
+                                            : `https://static.vecteezy.com/system/resources/previews/003/715/527/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-vector.jpg`
+                                    );
+                                    reset();
+                                }}
+                            >
+                                Cancel
                             </Button>
                             <Button
                                 size="sm"
