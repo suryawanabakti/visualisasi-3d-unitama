@@ -75,7 +75,7 @@ class UserController extends Controller
             $data['password'] = Hash::make($request->password);
         }
         if ($request->photo) {
-            @unlink("storage/" . $user->photo ?? null);
+            @unlink("storage/" . $user->photo);
             $data['photo'] = $request->file('photo')->store('photos');
         }
 

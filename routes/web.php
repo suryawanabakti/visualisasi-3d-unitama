@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,17 +16,26 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $users = User::role('user');
+
+    return Inertia::render('Dashboard', [
+        "users" => [
+            "count" => $users->count(),
+            "countFromLastYear" => $users->whereYear('created_at', now()->format('Y'))->count(),
+        ]
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::middleware(['role:admin|super'])->group(function () {
-        Route::get('/admin/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.users.index');
-        Route::get('/admin/users/create', [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('admin.users.create');
-        Route::post('/admin/users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('admin.users.store');
-        Route::get('/admin/users/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.users.edit');
-        Route::post('/admin/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.users.update');
-        Route::delete('/admin/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.users.destroy');
+        Route::controller(\App\Http\Controllers\Admin\UserController::class)->group(function () {
+            Route::get('/admin/users', 'index')->name('admin.users.index');
+            Route::get('/admin/users/create', 'create')->name('admin.users.create');
+            Route::post('/admin/users', 'store')->name('admin.users.store');
+            Route::get('/admin/users/{user}/edit', 'edit')->name('admin.users.edit');
+            Route::post('/admin/users/{user}', 'update')->name('admin.users.update');
+            Route::delete('/admin/users/{user}', 'destroy')->name('admin.users.destroy');
+        });
     });
 
 

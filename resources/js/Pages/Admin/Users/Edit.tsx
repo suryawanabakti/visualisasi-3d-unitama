@@ -318,7 +318,6 @@ export default function Edit({ auth, user }: PageProps<{ user: User }>) {
                                             type="file"
                                             onChange={imageChange}
                                             accept="image/*"
-                                            hidden
                                         />
                                         {errors.photo && (
                                             <small className="text-red-500">

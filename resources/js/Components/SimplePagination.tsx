@@ -29,7 +29,7 @@ export default function SimplePagination({
                                 links.first + `&search=${search ? search : ""}`
                             }
                         >
-                            First
+                            First Page
                         </PaginationLink>
                     </PaginationItem>
                 )}
@@ -61,7 +61,7 @@ export default function SimplePagination({
                     <PaginationLink
                         href={links.last + `&search=${search ? search : ""}`}
                     >
-                        Last
+                        Last Page
                     </PaginationLink>
                 </PaginationItem>
             </PaginationContent>
