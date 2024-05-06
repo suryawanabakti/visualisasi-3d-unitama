@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,8 @@ Route::get('/dashboard', function () {
 
     return Inertia::render('Dashboard', [
         "users" => [
+            "countGenderMale" => $users->where('gender', 'male')->count(),
+            "countGenderFemale" => User::where('gender', 'female')->count(),
             "count" => $users->count(),
             "countFromLastYear" => $users->whereYear('created_at', now()->format('Y'))->count(),
         ]
@@ -38,6 +41,8 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/activities', [NotificationController::class, 'index'])->name('activities.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

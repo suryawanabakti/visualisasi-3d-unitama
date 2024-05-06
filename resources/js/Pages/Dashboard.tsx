@@ -10,14 +10,15 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Users } from "lucide-react";
 import { PieChart, Pie, Legend, Cell, Tooltip } from "recharts";
+import { useEffect, useState } from "react";
 
 export default function Dashboard({ auth, users }: PageProps<{ users: any }>) {
     const COLORS = ["#0088FE", "#00C49F"];
+    const [data01, setData01] = useState([
+        { name: "Male", value: users.countGenderMale },
+        { name: "Female", value: users.countGenderFemale },
+    ]);
 
-    const data01 = [
-        { name: "Male", value: 400 },
-        { name: "Female", value: 300 },
-    ];
     return (
         <AuthenticatedLayout
             user={auth.user}

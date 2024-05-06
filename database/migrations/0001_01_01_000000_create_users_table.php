@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('gender', ['male', 'female'])->default('male');
             $table->string('photo')->nullable();
             $table->rememberToken();
             $table->timestamps();
