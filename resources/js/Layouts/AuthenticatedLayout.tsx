@@ -1,6 +1,15 @@
 import { User } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
-import { Home, Package2, PanelLeft, Settings, Users2 } from "lucide-react";
+import {
+    Box,
+    BoxIcon,
+    Database,
+    Home,
+    Package2,
+    PanelLeft,
+    Settings,
+    Users2,
+} from "lucide-react";
 import { PropsWithChildren, ReactNode, useEffect } from "react";
 
 import { Button } from "@/Components/ui/button";
@@ -47,7 +56,7 @@ export default function Authenticated({
                             href="#"
                             className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
                         >
-                            <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
+                            <BoxIcon className="h-4 w-4 transition-all group-hover:scale-110" />
 
                             <span className="sr-only">Smart Inovasi Inc </span>
                         </Link>
@@ -93,6 +102,13 @@ export default function Authenticated({
                             </TooltipTrigger>
                             <TooltipContent side="right">Users</TooltipContent>
                         </Tooltip>
+
+                        <div
+                            className={`flex h-9 w-9 items-center justify-center rounded-lg text-foreground transition-colors hover:text-foreground md:h-8 md:w-8`}
+                        >
+                            <Database className="h-5 w-5" />
+                            <span className="sr-only">Dashboard</span>
+                        </div>
                     </nav>
                     <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
                         <Tooltip>

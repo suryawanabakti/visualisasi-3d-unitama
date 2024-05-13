@@ -68,6 +68,7 @@ export default function Login({
                                 <div className="flex items-center">
                                     <Label htmlFor="password">Password</Label>
                                     <Link
+                                        tabIndex={-1}
                                         href="/forgot-password"
                                         className="ml-auto inline-block text-sm underline"
                                     >
@@ -94,7 +95,11 @@ export default function Login({
                                 )}
                                 {processing ? "Please wait" : "Login"}
                             </Button>
-                            <Button variant="outline" className="w-full">
+                            <Button
+                                variant="outline"
+                                className="w-full"
+                                disabled={processing}
+                            >
                                 Login with Google
                             </Button>
                         </form>

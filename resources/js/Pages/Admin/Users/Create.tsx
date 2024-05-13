@@ -26,7 +26,7 @@ import { FormEventHandler, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function Create({ auth }: PageProps) {
-    const inputRef = useRef<HTMLInputElement | null>(null);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
     const { data, setData, errors, post, reset, processing } = useForm({
         name: "",
         email: "",
@@ -35,6 +35,23 @@ export default function Create({ auth }: PageProps) {
         address: "",
         photo: "",
     });
+    // Get the button
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+        scrollFunction();
+    };
+
+    const scrollFunction = () => {
+        if (
+            document.body.scrollTop > 20 ||
+            document.documentElement.scrollTop > 20
+        ) {
+            console.log("Muncul");
+        } else {
+            console.log("Tidak muncul");
+        }
+    };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -90,7 +107,11 @@ export default function Create({ auth }: PageProps) {
             }
         >
             <Head title="Create user" />
-
+            <div className="fixed right-3 bottom-3">
+                <Button size="sm" ref={buttonRef}>
+                    Go Top
+                </Button>
+            </div>
             <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
                 <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
                     <div className="flex items-center gap-4">
@@ -230,7 +251,6 @@ export default function Create({ auth }: PageProps) {
                                                 </span>{" "}
                                             </Label>
                                             <Input
-                                                ref={inputRef}
                                                 id="password"
                                                 type="password"
                                                 className="w-full"
@@ -330,6 +350,8 @@ export default function Create({ auth }: PageProps) {
                         </div>
                     </div>
                 </div>
+
+                <div style={{ marginBottom: "1000px" }}></div>
             </main>
         </AuthenticatedLayout>
     );
