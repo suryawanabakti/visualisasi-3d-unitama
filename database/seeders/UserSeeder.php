@@ -11,8 +11,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(100)->create()->map(fn ($user) => $user->assignRole("user"));
+        // \App\Models\User::factory(100)->create()->map(fn ($user) => $user->assignRole("user"));
 
-        \App\Models\User::create(["name" => "Admin", "email" => "admin@admin", "password" => bcrypt("qwerty123")])->assignRole("admin");
+        \App\Models\User::create(["name" => "Admin", "username" => "admin", "email" => "admin@admin", "password" => bcrypt("qwerty123")])->assignRole("admin");
     }
 }

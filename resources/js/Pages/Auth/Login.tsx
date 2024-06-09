@@ -15,7 +15,7 @@ export default function Login({
     canResetPassword: boolean;
 }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
+        input_type: "",
         password: "",
         remember: false,
     });
@@ -52,17 +52,17 @@ export default function Login({
                         </div>
                         <form className="grid gap-4" onSubmit={submit}>
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
+                                <Label htmlFor="input_type">Username</Label>
                                 <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="m@example.com"
+                                    id="input_type"
+                                    type="input_type"
+                                    placeholder="Masukkan username kamu..."
                                     required
                                     onChange={(e) =>
-                                        setData("email", e.target.value)
+                                        setData("input_type", e.target.value)
                                     }
                                 />
-                                <InputError message={errors.email} />
+                                <InputError message={errors.input_type} />
                             </div>
                             <div className="grid gap-2">
                                 <div className="flex items-center">
