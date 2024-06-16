@@ -30,6 +30,7 @@ export default function Edit({ auth, user }: PageProps<{ user: User }>) {
     const { data, setData, errors, post, reset, processing } = useForm({
         name: user.name,
         email: user.email,
+        username: user.username,
         address: user.address,
         password: "",
         password_confirmation: "",
@@ -228,6 +229,32 @@ export default function Edit({ auth, user }: PageProps<{ user: User }>) {
                                             {errors.email && (
                                                 <small className="text-red-500">
                                                     {errors.email}
+                                                </small>
+                                            )}
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <Label htmlFor="email">
+                                                Username{" "}
+                                                <span className="text-red-600">
+                                                    *
+                                                </span>{" "}
+                                            </Label>
+                                            <Input
+                                                required
+                                                id="username"
+                                                type="username"
+                                                className="w-full"
+                                                value={data.username}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "username",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            {errors.username && (
+                                                <small className="text-red-500">
+                                                    {errors.username}
                                                 </small>
                                             )}
                                         </div>

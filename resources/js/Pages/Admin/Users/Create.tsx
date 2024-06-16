@@ -28,6 +28,7 @@ import { toast } from "sonner";
 export default function Create({ auth }: PageProps) {
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const { data, setData, errors, post, reset, processing } = useForm({
+        username: "",
         name: "",
         email: "",
         password: "",
@@ -240,6 +241,32 @@ export default function Create({ auth }: PageProps) {
                                             {errors.email && (
                                                 <small className="text-red-500">
                                                     {errors.email}
+                                                </small>
+                                            )}
+                                        </div>
+                                        <div className="grid gap-3">
+                                            <Label htmlFor="username">
+                                                Username{" "}
+                                                <span className="text-red-600">
+                                                    *
+                                                </span>{" "}
+                                            </Label>
+                                            <Input
+                                                required
+                                                id="username"
+                                                type="username"
+                                                className="w-full"
+                                                value={data.username}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "username",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            {errors.username && (
+                                                <small className="text-red-500">
+                                                    {errors.username}
                                                 </small>
                                             )}
                                         </div>

@@ -23,7 +23,7 @@ class UserController extends Controller
             $users->where('name', 'LIKE', "%{$request->search}%")->orWhere('email', 'LIKE', "%{$request->search}%");
         }
 
-        return inertia("Admin/Users/Page", ["users" => UserResource::collection($users->paginate(5)), "search" => $request->search ?? null]);
+        return inertia("Admin/Users/Page", ["users" => UserResource::collection($users->paginate(3)), "search" => $request->search ?? null]);
     }
 
     /**

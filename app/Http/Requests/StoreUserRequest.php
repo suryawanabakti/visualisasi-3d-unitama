@@ -23,6 +23,7 @@ class StoreUserRequest extends FormRequest
     {
         return [
             "name" => ['required', 'max:255'],
+            "username" => ['required', 'max:255', 'alpha_dash'],
             "email" => ['email', 'required', 'max:255'],
             "password" => ['required', 'confirmed', 'max:255'],
             "photo" => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:2048'],

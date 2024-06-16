@@ -16,6 +16,8 @@ export default function Login({
 }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         input_type: "",
+        username: "",
+        email: "",
         password: "",
         remember: false,
     });
@@ -55,7 +57,7 @@ export default function Login({
                                 <Label htmlFor="input_type">Username</Label>
                                 <Input
                                     id="input_type"
-                                    type="input_type"
+                                    type="text"
                                     placeholder="Masukkan username kamu..."
                                     required
                                     onChange={(e) =>
@@ -63,6 +65,8 @@ export default function Login({
                                     }
                                 />
                                 <InputError message={errors.input_type} />
+                                <InputError message={errors.username} />
+                                <InputError message={errors.email} />
                             </div>
                             <div className="grid gap-2">
                                 <div className="flex items-center">
