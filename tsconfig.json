@@ -8,8 +8,11 @@
         "isolatedModules": true,
         "target": "ESNext",
         "esModuleInterop": true,
+        "lib": ["dom", "es2015"],
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
         "paths": {
             "@/*": ["./resources/js/*"],
             "ziggy-js": ["./vendor/tightenco/ziggy"]

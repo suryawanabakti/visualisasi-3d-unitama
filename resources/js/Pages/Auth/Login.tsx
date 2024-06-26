@@ -16,8 +16,6 @@ export default function Login({
 }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         input_type: "",
-        username: "",
-        email: "",
         password: "",
         remember: false,
     });
@@ -43,7 +41,7 @@ export default function Login({
                     {status}
                 </div>
             )}
-            <div className="w-full lg:grid lg:min-h-[700px] lg:grid-cols-2 xl:min-h-[800px]">
+            <div className="w-full lg:grid lg:min-h-[700px] lg:grid-cols-2 xl:min-h-[700px]">
                 <div className="flex items-center justify-center py-12">
                     <div className="mx-auto grid w-[350px] gap-6">
                         <div className="grid gap-2 text-center">
@@ -64,9 +62,8 @@ export default function Login({
                                         setData("input_type", e.target.value)
                                     }
                                 />
-                                <InputError message={errors.input_type} />
+
                                 <InputError message={errors.username} />
-                                <InputError message={errors.email} />
                             </div>
                             <div className="grid gap-2">
                                 <div className="flex items-center">
@@ -99,27 +96,15 @@ export default function Login({
                                 )}
                                 {processing ? "Please wait" : "Login"}
                             </Button>
-                            <Button
-                                variant="outline"
-                                className="w-full"
-                                disabled={processing}
-                            >
-                                Login with Google
-                            </Button>
                         </form>
-                        <div className="mt-4 text-center text-sm">
-                            Don&apos;t have an account?{" "}
-                            <Link href="#" className="underline">
-                                Sign up
-                            </Link>
-                        </div>
                     </div>
                 </div>
                 <div className="hidden bg-muted lg:block">
                     <img
-                        src="https://images.pexels.com/photos/287240/pexels-photo-287240.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                        src="/unitama.jpg"
                         alt="Image"
-                        className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                        width={700}
+                        className="object-cover"
                     />
                 </div>
             </div>

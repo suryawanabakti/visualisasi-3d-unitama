@@ -104,33 +104,6 @@ export default function Users({
 
             <div className="flex items-center">
                 <div className="ml-auto flex items-center gap-2">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="h-7 gap-1"
-                            >
-                                <ListFilter className="h-3.5 w-3.5" />
-                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                    Filter
-                                </span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuCheckboxItem checked>
-                                Active
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem>
-                                Draft
-                            </DropdownMenuCheckboxItem>
-                            <DropdownMenuCheckboxItem>
-                                Archived
-                            </DropdownMenuCheckboxItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                     <Button size="sm" variant="outline" className="h-7 gap-1">
                         <File className="h-3.5 w-3.5" />
                         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -141,7 +114,7 @@ export default function Users({
                         <Link href={route("admin.users.create")}>
                             <PlusCircle className="h-3.5 w-3.5" />
                             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                Add User
+                                Tambah Pegawai
                             </span>
                         </Link>
                     </Button>
@@ -165,6 +138,7 @@ export default function Users({
                                     <span className="sr-only">Image</span>
                                 </TableHead>
                                 <TableHead>Name</TableHead>
+                                <TableHead>Username</TableHead>
                                 <TableHead className="hidden sm:table-cell">
                                     Email
                                 </TableHead>
@@ -233,6 +207,7 @@ export default function Users({
                                     <TableCell className="font-medium">
                                         {user.name}
                                     </TableCell>
+                                    <TableCell>{user.username}</TableCell>
                                     <TableCell className="hidden sm:table-cell">
                                         {user.email}
                                     </TableCell>
